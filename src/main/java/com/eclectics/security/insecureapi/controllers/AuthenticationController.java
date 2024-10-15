@@ -62,8 +62,8 @@ public class AuthenticationController {
                     "Bad Request",
                     "Password can not be null or empty");
         }
-        if (user.getUsername().equals("security")) {
-            if (user.getPassword().equals("security")){
+        if (authenticationService.getUser(user.getUsername()) != null) {
+            if (user.getPassword().equals(authenticationService.getUser(user.getUsername()).getPassword())){
                 return ResponseBuilder.buildSuccessResponse(HttpStatus.OK,
                         "Login Successful",
                         authenticationService.getToken("Security"));
