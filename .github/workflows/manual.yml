@@ -29,7 +29,7 @@ jobs:
       run: mvn clean install
 
     - name: List build directory
-    - run: ls -la target/
+      run: ls -la target
 
     - name: Login to docker
       uses: docker/login-action@v2
