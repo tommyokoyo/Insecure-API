@@ -39,37 +39,24 @@ jobs:
         if-no-files-found: warn
         include-hidden-files: false
 
-  build-docker-image:
-    runs-on: ubuntu-latest
-    # This job depends on the success of first job
-    needs: build-jar
-    environment: InsecureAPI_env
+    - name: Download JAR Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: insecureapi
+        path: ./
 
-    steps:
-      - name: Download JAR Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: insecureapi
-          path: ./
+    - name: List build directory
+      run: ls -la target
 
-      - name: List files in the workspace
-        run: ls -la ~
+    - name: Build and tag Docker image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/insecureapi:latest .
 
-      - name: Build and tag Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/insecureapi:latest .
-
-  push-docker-image:
-    runs-on: ubuntu-latest
-    # This job depends on the second of first job
-    needs: build-docker-image
-    environment: InsecureAPI_env
-    steps:
-      - name: Login to docker
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Login to docker
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
       # Push the Docker image to Docker Hub (or any other Docker registry)
-      - name: Push Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/insecureapi:latest
+    - name: Push Docker image to Docker Hub
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/insecureapi:latest
