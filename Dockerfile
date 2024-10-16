@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copy the Maven build output (your JAR file) to the working directory in the container
 # Assuming your JAR file is in the 'target' directory after running `mvn package`
-COPY out/artifacts/insecureapi_jar/insecureapi.jar /app/insecureapi.jar
+COPY target/insecure-api-1.0-SNAPSHOT.jar artifacts/insecureapi_jar/insecureapi.jar /app/insecureapi.jar
 
 # Expose the port your application runs on (adjust the port as needed)
 EXPOSE 9093
