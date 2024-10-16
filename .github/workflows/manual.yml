@@ -39,7 +39,7 @@ jobs:
         if-no-files-found: warn
         include-hidden-files: false
 
-  build-docker:
+  build-docker-image:
     runs-on: ubuntu-latest
     # This job depends on the success of first job
     needs: build-jar
@@ -52,13 +52,16 @@ jobs:
           name: insecureapi
           path: ./
 
+      - name: List files in the workspace
+        run: ls -la
+
       - name: Build and tag Docker image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/insecureapi:latest .
 
   push-docker-image:
     runs-on: ubuntu-latest
     # This job depends on the second of first job
-    needs: build-docker
+    needs: build-docker-image
     environment: InsecureAPI_env
     steps:
       - name: Login to docker
