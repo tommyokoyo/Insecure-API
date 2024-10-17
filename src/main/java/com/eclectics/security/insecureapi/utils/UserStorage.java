@@ -36,10 +36,17 @@ public class UserStorage {
         user4.setEmail("admin_four@email.com");
         user4.setPassword("admin_four");
 
+        User user5 = new User();
+        user5.setUsername("admin");
+        user5.setUserid(UUID.randomUUID().toString());
+        user5.setEmail("admin@email.com");
+        user5.setPassword("admin");
+
         users.add(user1);
         users.add(user2);
         users.add(user3);
         users.add(user4);
+        users.add(user5);
     }
 
     public List<User> getUsers() {
