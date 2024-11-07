@@ -28,14 +28,11 @@ jobs:
     - name: Build the Java application
       run: mvn clean install
 
-    - name: List build directory
-      run: ls -la target
-
     - name: Upload JAR Artifact
       uses: actions/upload-artifact@v3
       with:
         name: insecureapi
-        path: target/insecureapi-0.0.1-SNAPSHOT.jar
+        path: target/insecureapi-1.0.0.jar
         if-no-files-found: warn
         include-hidden-files: false
 
@@ -43,13 +40,13 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: insecureapi
-        path: ./
+        path: target/insecureapi-1.0.0.jar
 
-    - name: List build directory
-      run: ls -la target
+    - name: Build latest image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/InsecureApi:latest .
 
-    - name: Build and tag Docker image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/insecureapi:latest .
+    - name: Version tagged images
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/InsecureApi:1.0.0 .
 
     - name: Login to docker
       uses: docker/login-action@v2
@@ -57,6 +54,9 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Push the Docker image to Docker Hub (or any other Docker registry)
+      # Push the Docker image to Docker Hub
+    - name: Push Docker image to Docker Hub
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/insecureapi:1.0.0
+
     - name: Push Docker image to Docker Hub
       run: docker push ${{ secrets.DOCKER_USERNAME }}/insecureapi:latest
