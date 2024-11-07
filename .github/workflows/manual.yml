@@ -37,10 +37,10 @@ jobs:
         include-hidden-files: false
 
     - name: Build latest image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/InsecureApi:latest .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/insecureapi:latest .
 
     - name: Version tagged images
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/InsecureApi:1.0.0 .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/insecureapi:1.0.0 .
 
     - name: Login to docker
       uses: docker/login-action@v2
