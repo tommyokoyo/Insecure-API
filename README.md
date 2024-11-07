@@ -11,12 +11,12 @@ The API is built with Spring Boot and containerized as a Docker image for easy d
 To get started:
 1. Pull the Docker image:
    ```bash
-   docker pull eclecticsinfosec/insecureapi
+   docker pull tommyokoyo/insecureapi
    ```
 
 2. Run the container:
    ```bash
-   docker run -p 9093:9093 eclecticsinfosec/insecureapi
+   docker run -p 9093:9093 tommyokoyo/insecureapi
    ```
 
 3. Access the Swagger documentation for API guidance and testing by navigating to:
